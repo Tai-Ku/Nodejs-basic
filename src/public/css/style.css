@@ -50,8 +50,23 @@ tr:hover {
 .form {
   padding-left: 16px;
   text-align: center;
-  margin-top: 40px ;
+  margin-top: 40px;
 }
 .form label {
   display: block;
+}
+
+.upload__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 100px;
+}
+.button__save {
+  border-radius: 999px;
+  padding: 2px;
+  background: #000;
+  color: #fff;
+  cursor: pointer;
+  margin-top: 10px;
 }
