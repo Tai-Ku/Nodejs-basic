@@ -22,6 +22,10 @@ const storage = multer.diskStorage({
 });
 
 let upload = multer({ storage: storage, fileFilter: helper.imageFilter });
+let upload1 = multer({
+  storage: storage,
+  fileFilter: helper.imageFilter,
+}).array("multiple_images", 3);
 const initWebRoute = (app) => {
   router.get("/", route.getHomePage);
   router.get("/detail/user/:userId", route.getDetail);
@@ -37,6 +41,27 @@ const initWebRoute = (app) => {
     "/upload-profile-pic",
     upload.single("profile_pic"),
     route.handleUploadFile
+  );
+
+  router.post(
+    "/upload-multiple-images",
+    (req, res, next) => {
+      upload1(req, res, (err) => {
+        if (
+          err instanceof multer.MulterError &&
+          err.code === "LIMIT_UNEXPECTED_FILE"
+        ) {
+          console.log("check instanecof", err instanceof multer.MulterError);
+          console.log("err.code", err.code);
+          res.send("Max file is 3");
+        } else if (err) {
+          res.send(err);
+        } else {
+          next();
+        }
+      });
+    },
+    route.handleMultiFile
   );
   return app.use("/", router);
 };
